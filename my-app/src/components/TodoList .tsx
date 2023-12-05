@@ -5,7 +5,6 @@ import React, { useReducer } from "react";
 import { Grid, Paper, styled } from "@mui/material";
 
 const TodoList = () => {
-  //   let tasks: string[] = ["aaaaa", "bbbbb", "cccccc", "dddddd"];
   const [tasks, setTasks] = React.useState([
     "aaaaa",
     "bbbbb",
