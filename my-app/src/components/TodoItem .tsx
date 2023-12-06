@@ -1,4 +1,3 @@
-import * as React from "react";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -6,20 +5,20 @@ import ListItemText from "@mui/material/ListItemText";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { Todo } from "../db";
 
 interface TodoProps {
-  item: string;
+  item: Todo;
   deleteItem: any;
+  updateTask: any;
 }
 
 const TodoItem = (props: TodoProps) => {
-  const { item, deleteItem } = props;
+  const { item, deleteItem, updateTask } = props;
 
-  const [checked, setChecked] = React.useState(false);
-
-  const hadleDelete = () =>{
+  const hadleDelete = () => {
     deleteItem(item);
-  }
+  };
 
   const taskCompleted = {
     textDecoration: "line-through",
@@ -35,9 +34,9 @@ const TodoItem = (props: TodoProps) => {
     <div className="TodoItem">
       {
         <ListItem
-          key={item}
+          key={item.id}
           secondaryAction={
-            <IconButton id={item} edge="end" onClick={hadleDelete}>
+            <IconButton edge="end" onClick={hadleDelete}>
               <DeleteIcon style={deleteIcon} />
             </IconButton>
           }
@@ -45,17 +44,23 @@ const TodoItem = (props: TodoProps) => {
         >
           <ListItemButton
             role={undefined}
-            onClick={() => setChecked(!checked)}
-            style={checked ? taskCompleted : {}}
+            onClick={() =>
+              updateTask({
+                id: item.id,
+                name: item.name,
+                isCompleted: !item.isCompleted,
+              })
+            }
+            style={item.isCompleted ? taskCompleted : {}}
             dense
           >
             <ListItemIcon>
               <Checkbox
                 edge="start"
-                checked={checked}
+                checked={item.isCompleted}
                 tabIndex={-1}
                 disableRipple
-                inputProps={{ "aria-labelledby": item }}
+                inputProps={{ "aria-labelledby": item.name }}
                 sx={{
                   "&.Mui-checked": {
                     color: "#3f51b5",
@@ -63,7 +68,7 @@ const TodoItem = (props: TodoProps) => {
                 }}
               />
             </ListItemIcon>
-            <ListItemText id={item} primary={item} />
+            <ListItemText primary={item.name} />
           </ListItemButton>
         </ListItem>
       }
