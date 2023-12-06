@@ -5,27 +5,15 @@ interface TodoProps {
   addNewTask: any;
 }
 
-const AddTodoForm = (props: TodoProps) => {
+const AddTodoForm: React.FC<TodoProps> = ({ addNewTask }) => {
   const [newItemValue, setNewItemValue] = useState("");
-  const { addNewTask } = props;
 
-  const buttonStyle = {
-    backgroundColor: "#3f51b5",
-  };
-
-  const handleChange = (event: { target: { value: any } }) => {
+  const handleChange = (event: any) => {
     setNewItemValue(event.target.value);
   };
 
-  const addItem = () => {
-    if (newItemValue){
-        addNewTask(newItemValue);
-        setNewItemValue("");
-    }
-  };
-
   return (
-    <div className="AddTodoForm">
+    <>
       <TextField
         id="newItem"
         variant="standard"
@@ -33,10 +21,19 @@ const AddTodoForm = (props: TodoProps) => {
         value={newItemValue}
         placeholder="Add new item"
       />
-      <Button variant="contained" style={buttonStyle} onClick={addItem}>
+      <Button
+        variant="contained"
+        sx={{ bgcolor: "#3f51b5" }}
+        onClick={() => {
+          if (newItemValue) {
+            addNewTask(newItemValue);
+            setNewItemValue("");
+          }
+        }}
+      >
         ADD TODO
       </Button>
-    </div>
+    </>
   );
 };
 

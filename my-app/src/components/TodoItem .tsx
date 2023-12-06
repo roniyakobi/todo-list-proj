@@ -9,70 +9,53 @@ import { Todo } from "../db";
 
 interface TodoProps {
   item: Todo;
-  deleteItem: any;
+  deleteItem: (item: Todo) => void;
   updateTask: any;
 }
 
-const TodoItem = (props: TodoProps) => {
-  const { item, deleteItem, updateTask } = props;
-
-  const hadleDelete = () => {
-    deleteItem(item);
-  };
-
-  const taskCompleted = {
-    textDecoration: "line-through",
-    fontStyle: "italic",
-    color: "gray",
-  };
-
-  const deleteIcon = {
-    color: "#f50057",
-  };
-
+const TodoItem: React.FC<TodoProps> = ({ item, deleteItem, updateTask }) => {
   return (
-    <div className="TodoItem">
-      {
-        <ListItem
-          key={item.id}
-          secondaryAction={
-            <IconButton edge="end" onClick={hadleDelete}>
-              <DeleteIcon style={deleteIcon} />
-            </IconButton>
-          }
-          disablePadding
-        >
-          <ListItemButton
-            role={undefined}
-            onClick={() =>
-              updateTask({
-                id: item.id,
-                name: item.name,
-                isCompleted: !item.isCompleted,
-              })
-            }
-            style={item.isCompleted ? taskCompleted : {}}
-            dense
-          >
-            <ListItemIcon>
-              <Checkbox
-                edge="start"
-                checked={item.isCompleted}
-                tabIndex={-1}
-                disableRipple
-                inputProps={{ "aria-labelledby": item.name }}
-                sx={{
-                  "&.Mui-checked": {
-                    color: "#3f51b5",
-                  },
-                }}
-              />
-            </ListItemIcon>
-            <ListItemText primary={item.name} />
-          </ListItemButton>
-        </ListItem>
+    <ListItem
+      key={item.id}
+      secondaryAction={
+        <IconButton edge="end" onClick={() => deleteItem(item)}>
+          <DeleteIcon sx={{ color: "#f50057" }} />
+        </IconButton>
       }
-    </div>
+      disablePadding
+    >
+      <ListItemButton
+        onClick={() =>
+          updateTask({
+            id: item.id,
+            name: item.name,
+            isCompleted: !item.isCompleted,
+          })
+        }
+        style={
+          item.isCompleted
+            ? {
+                textDecoration: "line-through",
+                fontStyle: "italic",
+                color: "gray",
+              }
+            : {}
+        }
+      >
+        <ListItemIcon>
+          <Checkbox
+            edge="start"
+            checked={item.isCompleted}
+            sx={{
+              "&.Mui-checked": {
+                color: "#3f51b5",
+              },
+            }}
+          />
+        </ListItemIcon>
+        <ListItemText primary={item.name} />
+      </ListItemButton>
+    </ListItem>
   );
 };
 
