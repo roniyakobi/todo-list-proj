@@ -4,6 +4,7 @@ import AddTodoForm from "./AddTodoForm";
 import { useReducer, useState } from "react";
 import { Grid, Typography } from "@mui/material";
 import { Todo, data } from "../db";
+import { width } from "@mui/system";
 
 const TodoList: React.FC = () => {
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
@@ -37,7 +38,11 @@ const TodoList: React.FC = () => {
   };
 
   return (
-    <Grid sx={{ justifyContent: "center", textAlign: "center" }}>
+    <Grid
+      sx={{  textAlign: "center" }}
+      style={{ width: "30%", justifyContent: "center", textAlign:"center"
+     }}
+    >
       <Typography>Todo List</Typography>
 
       <List sx={{ bgcolor: "background.paper", textAlign: "center" }}>
