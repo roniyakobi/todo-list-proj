@@ -8,8 +8,19 @@ const AddTodoForm: React.FC = () => {
   const dispatch = useDispatch();
   const [newItemValue, setNewItemValue] = useState("");
 
-  const handleChange = (event: any) => {
-    setNewItemValue(event.target.value);
+  const handleChange = () => {
+    if (newItemValue) {
+      let newId: number;
+
+      if (todos.length) {
+        newId = Math.max(...todos.map((currTodo) => currTodo.id)) + 1;
+      } else {
+        newId = 1;
+      }
+
+      dispatch(addTodo({ id: newId, name: newItemValue, isCompleted: false }));
+      setNewItemValue("");
+    }
   };
 
   return (
@@ -17,27 +28,16 @@ const AddTodoForm: React.FC = () => {
       <TextField
         id="newItem"
         variant="standard"
-        onChange={handleChange}
+        onChange={(event) => {
+          setNewItemValue(event.target.value);
+        }}
         value={newItemValue}
         placeholder="Add new item"
       />
       <Button
         variant="contained"
         sx={{ bgcolor: "#3f51b5" }}
-        onClick={() => {
-          if (newItemValue) {
-            let newId;
-            try {
-              newId = todos[todos.length - 1].id + 1;
-            } catch (error) {
-              newId = 1;
-            }
-            dispatch(
-              addTodo({ id: newId, name: newItemValue, isCompleted: false })
-            );
-            setNewItemValue("");
-          }
-        }}
+        onClick={handleChange}
       >
         ADD TODO
       </Button>

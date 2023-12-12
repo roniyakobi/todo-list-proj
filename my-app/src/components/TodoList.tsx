@@ -1,5 +1,5 @@
 import List from "@mui/material/List";
-import TodoItem from "./TodoItem ";
+import TodoItem from "./TodoItem";
 import AddTodoForm from "./AddTodoForm";
 import { Grid, Typography } from "@mui/material";
 import { Todo } from "../db";

@@ -1,4 +1,4 @@
-import CheckboxList from "./components/TodoList ";
+import CheckboxList from "./components/TodoList";
 
 function App() {
   return (

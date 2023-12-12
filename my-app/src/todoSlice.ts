@@ -9,20 +9,16 @@ export const todosSlice = createSlice({
     addTodo: (state, action: PayloadAction<Todo>) => {
       state.push(action.payload);
     },
-    deleteTodo: (state, action: PayloadAction<Todo>) => {
-      const index = current(state).indexOf(action.payload);
-      state.splice(index, 1);
-    },
-    editTodo: (state: Todo[], action: PayloadAction<Todo>) => {
+    deleteTodo: (state, action: PayloadAction<Todo>) =>
+      state.filter((currTodo) => currTodo.id !== action.payload.id),
+    editTodo: (state, action: PayloadAction<Todo>) =>
       state.map((currTodo) => {
         if (currTodo.id === action.payload.id) {
-          currTodo.isCompleted = action.payload.isCompleted;
-          currTodo.name = action.payload.name;
+          currTodo = action.payload;
         }
 
         return currTodo;
-      });
-    },
+      }),
   },
 });
 
