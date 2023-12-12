@@ -1,11 +1,11 @@
 import { Button, TextField } from "@mui/material";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addTodo, selectTodos } from "../todoSlice";
 
-interface TodoProps {
-  addNewTask: any;
-}
-
-const AddTodoForm: React.FC<TodoProps> = ({ addNewTask }) => {
+const AddTodoForm: React.FC = () => {
+  const todos = useSelector(selectTodos);
+  const dispatch = useDispatch();
   const [newItemValue, setNewItemValue] = useState("");
 
   const handleChange = (event: any) => {
@@ -26,7 +26,15 @@ const AddTodoForm: React.FC<TodoProps> = ({ addNewTask }) => {
         sx={{ bgcolor: "#3f51b5" }}
         onClick={() => {
           if (newItemValue) {
-            addNewTask(newItemValue);
+            let newId;
+            try {
+              newId = todos[todos.length - 1].id + 1;
+            } catch (error) {
+              newId = 1;
+            }
+            dispatch(
+              addTodo({ id: newId, name: newItemValue, isCompleted: false })
+            );
             setNewItemValue("");
           }
         }}

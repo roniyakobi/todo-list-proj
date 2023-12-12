@@ -6,19 +6,21 @@ import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Todo } from "../db";
+import { useDispatch } from "react-redux";
+import { deleteTodo, editTodo } from "../todoSlice";
 
 interface TodoProps {
   item: Todo;
-  deleteItem: (item: Todo) => void;
-  updateTask: any;
 }
 
-const TodoItem: React.FC<TodoProps> = ({ item, deleteItem, updateTask }) => {
+const TodoItem: React.FC<TodoProps> = ({ item }) => {
+  const dispatch = useDispatch();
+
   return (
     <ListItem
       key={item.id}
       secondaryAction={
-        <IconButton edge="end" onClick={() => deleteItem(item)}>
+        <IconButton edge="end" onClick={() => dispatch(deleteTodo(item))}>
           <DeleteIcon sx={{ color: "#f50057" }} />
         </IconButton>
       }
@@ -26,11 +28,13 @@ const TodoItem: React.FC<TodoProps> = ({ item, deleteItem, updateTask }) => {
     >
       <ListItemButton
         onClick={() =>
-          updateTask({
-            id: item.id,
-            name: item.name,
-            isCompleted: !item.isCompleted,
-          })
+          dispatch(
+            editTodo({
+              id: item.id,
+              name: item.name,
+              isCompleted: !item.isCompleted,
+            })
+          )
         }
         style={
           item.isCompleted
