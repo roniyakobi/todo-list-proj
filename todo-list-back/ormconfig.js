@@ -1,8 +1,10 @@
 const connections = [
   {
     name: 'default',
-    type: 'oracle',
+    type: 'postgres',
     connectString: process.env.DB_TNSNAME,
+    host: 'localhost',
+    port: process.env.DB_PORT,
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     logging: ['error'],
