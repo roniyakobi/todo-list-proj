@@ -1,14 +1,14 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
 
-@Entity('TODOS')
-class Todo {
-  @PrimaryColumn('numeric', { name: 'ID', precision: 10, scale: 0 })
+@Entity('todos')
+class Todo extends BaseEntity {
+  @PrimaryColumn('numeric', { name: 'id', precision: 10, scale: 0 })
   id!: number;
 
-  @Column({ type: String, name: 'NAME', length: 50 })
+  @Column({ type: String, name: 'name', length: 50 })
   name!: string;
 
-  @Column({ type: Boolean, name: 'IS_COMPLETED' })
+  @Column({ type: Boolean, name: 'is_completed' })
   isCompleted!: boolean;
 }
 

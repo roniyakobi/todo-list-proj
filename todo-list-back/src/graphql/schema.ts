@@ -1,5 +1,4 @@
 import { gql } from 'apollo-server-express';
-import { Todo } from '../entities/todo';
 
 export const typeDefs = gql`
   type Todo {
@@ -7,7 +6,17 @@ export const typeDefs = gql`
     name: String
     isCompleted: Boolean
   }
+  input TodoInput {
+    id: Int
+    name: String
+    isCompleted: Boolean
+  }
   type Query {
     todos: [Todo]
+  }
+  type Mutation {
+    addTodo(todo: TodoInput): [Todo]
+    updateTodo(todo: TodoInput): [Todo]
+    deleteTodo(idToDelete: Int): [Todo]
   }
 `;
