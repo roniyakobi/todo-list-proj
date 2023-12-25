@@ -21,7 +21,7 @@ app.use(cookieParser());
 const IS_DEV = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 
 if (IS_DEV) {
-  app.use(cors());
+  app.use(cors<cors.CorsRequest>());
 }
 
 // routers
@@ -35,7 +35,7 @@ const apolloServer = new ApolloServer({
 let apolloCors;
 if (IS_DEV) {
   apolloCors = {
-    origin: 'http://localhost:3001',
+    origin: 'http://localhost:3000',
     credentials: true,
   };
 }

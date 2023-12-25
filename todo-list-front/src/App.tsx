@@ -1,9 +1,9 @@
-import CheckboxList from "./components/TodoList";
+import TodoList from "./components/TodoList";
 
 function App() {
   return (
     <>
-      <CheckboxList></CheckboxList>
+      <TodoList></TodoList>
     </>
   );
 }

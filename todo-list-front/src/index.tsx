@@ -1,17 +1,31 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { Provider } from 'react-redux';
-import store from './store';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  gql,
+} from "@apollo/client";
+import { Provider } from "react-redux";
+import store from "./store";
+import { Todo } from "./db";
+
+const client = new ApolloClient({
+  uri: "http://localhost:4000/graphql/",
+  cache: new InMemoryCache(),
+});
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
-  <Provider store={store}>
-  <App />
-</Provider>,
+    <Provider store={store}>
+  <ApolloProvider client={client}>
+      <App />
+  </ApolloProvider>
+    </Provider>
 );
 
 reportWebVitals();

@@ -1,6 +1,8 @@
-import { PayloadAction, createSlice, current } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Todo, data } from "./db";
 import { RootState } from "./store";
+
+const a: Todo[] = [];
 
 export const todosSlice = createSlice({
   name: "todos",
@@ -19,10 +21,11 @@ export const todosSlice = createSlice({
 
         return currTodo;
       }),
+    initialTodos: (state, action: PayloadAction<Todo[]>) =>  action.payload,
   },
 });
 
-export const { addTodo, deleteTodo, editTodo } = todosSlice.actions;
+export const { initialTodos, addTodo, deleteTodo, editTodo } = todosSlice.actions;
 
 export const selectTodos = (state: RootState) => state.todos;
 

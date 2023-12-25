@@ -1,24 +1,56 @@
 import { Button, TextField } from "@mui/material";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addTodo, selectTodos } from "../todoSlice";
+import { gql, useMutation, useQuery } from "@apollo/client";
+import { Todo } from "../db";
+import { useDispatch } from "react-redux";
+import { addTodo } from "../todoSlice";
+
+const ADD_TODO = gql`
+  mutation addTodo($todo: TodoInput) {
+    addTodo(todo: $todo) {
+      id
+    }
+  }
+`;
+
+const GET_TODOS = gql`
+  query getTodos {
+    todos {
+      id
+      name
+    }
+  }
+`;
 
 const AddTodoForm: React.FC = () => {
-  const todos = useSelector(selectTodos);
   const dispatch = useDispatch();
   const [newItemValue, setNewItemValue] = useState("");
+  const {
+    loading: todosLoading,
+    error: todosError,
+    data: todosData,
+  } = useQuery(GET_TODOS);
+
+  const [addTodoToDB, { data, loading, error }] = useMutation(ADD_TODO);
 
   const handleChange = () => {
     if (newItemValue) {
       let newId: number;
 
-      if (todos.length) {
-        newId = Math.max(...todos.map((currTodo) => currTodo.id)) + 1;
+      if (todosData.todos.length) {
+        newId =
+          Math.max(...todosData.todos.map((currTodo: Todo) => currTodo.id)) + 1;
       } else {
         newId = 1;
       }
 
+      addTodoToDB({
+        variables: {
+          todo: { id: newId, name: newItemValue, isCompleted: false },
+        },
+      });
       dispatch(addTodo({ id: newId, name: newItemValue, isCompleted: false }));
+      
       setNewItemValue("");
     }
   };

@@ -5,7 +5,7 @@ export const resolvers = {
   Query: {
     todos: async () => {
       const todoRepository = getRepository(Todo);
-      return todoRepository.find();
+      return (await todoRepository.find()).sort((curr, next) => curr.id - next.id);
     },
   },
   Mutation: {
@@ -14,12 +14,12 @@ export const resolvers = {
       await todoRepository.save(args.todo);
       return todoRepository.find();
     },
-    updateTodo: async (_: any, args: { updatedTodo: Todo }) => {
+    updateTodo: async (_: any, args: { todo: Todo }) => {
       const todoRepository = getRepository(Todo);
-      const todoToUpdate = await todoRepository.findOne({ id: args.updatedTodo.id });
+      const todoToUpdate = await todoRepository.findOne({ id: args.todo.id });
       if (todoToUpdate) {
-        todoToUpdate.name = args.updatedTodo.name;
-        todoToUpdate.isCompleted = args.updatedTodo.isCompleted;
+        todoToUpdate.name = args.todo.name;
+        todoToUpdate.isCompleted = args.todo.isCompleted;
         await todoRepository.save(todoToUpdate);
       }
       return todoRepository.find();
