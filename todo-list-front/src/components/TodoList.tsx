@@ -6,6 +6,7 @@ import { Todo } from "../db";
 import { useDispatch, useSelector } from "react-redux";
 import { initialTodos, selectTodos } from "../todoSlice";
 import { gql, useQuery } from "@apollo/client";
+import { useEffect } from "react";
 
 const GET_TODOS = gql`
   query getTodos {
@@ -20,11 +21,13 @@ const GET_TODOS = gql`
 const TodoList: React.FC = () => {
   const dispatch = useDispatch();
   const todos: Todo[] = useSelector(selectTodos);
-  const { loading, error, data } = useQuery(GET_TODOS);
-  // dispatch(initialTodos(data))
+  const { data } = useQuery(GET_TODOS);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error : {error.message}</p>;
+  useEffect(() => {
+    if (data) {
+      dispatch(initialTodos(data.todos));
+    }
+  }, [data, dispatch]);
 
   return (
     <Grid
@@ -34,7 +37,7 @@ const TodoList: React.FC = () => {
       <Typography>Todo List</Typography>
 
       <List sx={{ bgcolor: "background.paper", textAlign: "center" }}>
-        {data.todos.map((task: Todo) => (
+        {todos.map((task: Todo) => (
           <TodoItem key={task.id} item={task} />
         ))}
         <AddTodoForm />

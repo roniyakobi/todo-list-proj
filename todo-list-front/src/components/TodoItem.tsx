@@ -31,22 +31,8 @@ const DELETE_TODO = gql`
 
 const TodoItem: React.FC<TodoProps> = ({ item }) => {
   const dispatch = useDispatch();
-  const [
-    updateTodo,
-    {
-      data: updateTodoData,
-      loading: updateTodoLoading,
-      error: updateTodoError,
-    },
-  ] = useMutation(UPDATE_TODO);
-  const [
-    deleteTodoById,
-    {
-      data: deleteTodoData,
-      loading: deleteTodoloading,
-      error: deleteTodoError,
-    },
-  ] = useMutation(DELETE_TODO);
+  const [updateTodo] = useMutation(UPDATE_TODO);
+  const [deleteTodoById] = useMutation(DELETE_TODO);
 
   return (
     <ListItem

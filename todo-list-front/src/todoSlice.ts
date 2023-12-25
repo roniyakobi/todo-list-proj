@@ -1,12 +1,12 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { Todo, data } from "./db";
+import { Todo } from "./db";
 import { RootState } from "./store";
 
-const a: Todo[] = [];
+const tmp: Todo[] = [];
 
 export const todosSlice = createSlice({
   name: "todos",
-  initialState: data,
+  initialState: tmp,
   reducers: {
     addTodo: (state, action: PayloadAction<Todo>) => {
       state.push(action.payload);
@@ -21,11 +21,12 @@ export const todosSlice = createSlice({
 
         return currTodo;
       }),
-    initialTodos: (state, action: PayloadAction<Todo[]>) =>  action.payload,
+    initialTodos: (state, action: PayloadAction<Todo[]>) => action.payload,
   },
 });
 
-export const { initialTodos, addTodo, deleteTodo, editTodo } = todosSlice.actions;
+export const { initialTodos, addTodo, deleteTodo, editTodo } =
+  todosSlice.actions;
 
 export const selectTodos = (state: RootState) => state.todos;
 
