@@ -2,7 +2,7 @@ import List from "@mui/material/List";
 import TodoItem from "./TodoItem";
 import AddTodoForm from "./AddTodoForm";
 import { Grid, Typography } from "@mui/material";
-import { Todo } from "../db";
+import { Todo } from "../data";
 import { useDispatch, useSelector } from "react-redux";
 import { initialTodos, selectTodos } from "../todoSlice";
 import { gql, useQuery } from "@apollo/client";
