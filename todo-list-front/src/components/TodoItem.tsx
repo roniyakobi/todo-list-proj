@@ -8,24 +8,22 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Todo } from "../db";
 import { gql, useMutation } from "@apollo/client";
 import { useDispatch } from "react-redux";
-import { deleteTodo, editTodo } from "../todoSlice";
+import { deleteTodo, toggleTodo } from "../todoSlice";
 
 interface TodoProps {
   item: Todo;
 }
 const UPDATE_TODO = gql`
-  mutation updateTodo($todo: TodoInput) {
-    updateTodo(todo: $todo) {
+  mutation toggleTodo($id: Int) {
+    toggleTodo(id: $id) {
       id
     }
   }
 `;
 
 const DELETE_TODO = gql`
-  mutation delete($idToDelete: Int) {
-    deleteTodo(idToDelete: $idToDelete) {
-      id
-    }
+  mutation delete($id: Int) {
+    deleteTodo(id: $id)
   }
 `;
 
@@ -41,8 +39,8 @@ const TodoItem: React.FC<TodoProps> = ({ item }) => {
         <IconButton
           edge="end"
           onClick={() => {
-            dispatch(deleteTodo(item));
-            deleteTodoById({ variables: { idToDelete: item.id } });
+            dispatch(deleteTodo(item.id));
+            deleteTodoById({ variables: { id: item.id } });
           }}
         >
           <DeleteIcon sx={{ color: "#f50057" }} />
@@ -52,17 +50,12 @@ const TodoItem: React.FC<TodoProps> = ({ item }) => {
     >
       <ListItemButton
         onClick={() => {
-          const updatedTodo = {
-            id: item.id,
-            name: item.name,
-            isCompleted: !item.isCompleted,
-          };
           updateTodo({
             variables: {
-              todo: updatedTodo,
+              id: item.id,
             },
           });
-          dispatch(editTodo(updatedTodo));
+          dispatch(toggleTodo(item.id));
         }}
         style={
           item.isCompleted

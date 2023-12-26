@@ -6,7 +6,7 @@ class Todo extends BaseEntity {
   id!: number;
 
   @Column({ type: String, name: 'name', length: 50 })
-  name!: string;
+  name!: String;
 
   @Column({ type: Boolean, name: 'is_completed' })
   isCompleted!: boolean;

@@ -1,13 +1,12 @@
 import { Button, TextField } from "@mui/material";
 import { useState } from "react";
 import { gql, useMutation } from "@apollo/client";
-import { Todo } from "../db";
-import { useDispatch, useSelector } from "react-redux";
-import { addTodo, selectTodos } from "../todoSlice";
+import { useDispatch } from "react-redux";
+import { addTodo } from "../todoSlice";
 
 const ADD_TODO = gql`
-  mutation addTodo($todo: TodoInput) {
-    addTodo(todo: $todo) {
+  mutation addTodo($name: String!) {
+    addTodo(name: $name) {
       id
     }
   }
@@ -15,28 +14,18 @@ const ADD_TODO = gql`
 
 const AddTodoForm: React.FC = () => {
   const dispatch = useDispatch();
-  const todos = useSelector(selectTodos)
   const [newItemValue, setNewItemValue] = useState("");
 
   const [addTodoToDB] = useMutation(ADD_TODO);
 
   const handleChange = () => {
     if (newItemValue) {
-      let newId: number;
-
-      if (todos.length) {
-        newId =
-          Math.max(...todos.map((currTodo: Todo) => currTodo.id)) + 1;
-      } else {
-        newId = 1;
-      }
 
       addTodoToDB({
-        variables: {
-          todo: { id: newId, name: newItemValue, isCompleted: false },
+        variables: {name: newItemValue
         },
       });
-      dispatch(addTodo({ id: newId, name: newItemValue, isCompleted: false }));
+      dispatch(addTodo(newItemValue));
 
       setNewItemValue("");
     }
