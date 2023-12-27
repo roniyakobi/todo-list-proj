@@ -12,7 +12,7 @@ ApiRouter.post('/todos', async (req: any, res: any, next: any) => {
 });
 
 ApiRouter.patch('/todos', async (req: any, res: any, next: any) => {
-  // res.json(await resolvers.Mutation.updateTodo('', req.body.todo));
+  res.json(await resolvers.Mutation.toggleTodo('', req.body.id));
 });
 
 ApiRouter.delete('/todos', async (req: any, res: any, next: any) => {

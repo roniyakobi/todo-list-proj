@@ -18,19 +18,6 @@ const AddTodoForm: React.FC = () => {
 
   const [addTodoToDB] = useMutation(ADD_TODO);
 
-  const handleChange = () => {
-    if (newItemValue) {
-
-      addTodoToDB({
-        variables: {name: newItemValue
-        },
-      });
-      dispatch(addTodo(newItemValue));
-
-      setNewItemValue("");
-    }
-  };
-
   return (
     <>
       <TextField
@@ -45,7 +32,16 @@ const AddTodoForm: React.FC = () => {
       <Button
         variant="contained"
         sx={{ bgcolor: "#3f51b5" }}
-        onClick={handleChange}
+        onClick={() => {
+          if (newItemValue) {
+            addTodoToDB({
+              variables: { name: newItemValue },
+            });
+            dispatch(addTodo(newItemValue));
+
+            setNewItemValue("");
+          }
+        }}
       >
         ADD TODO
       </Button>
