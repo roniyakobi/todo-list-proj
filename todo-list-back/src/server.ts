@@ -3,7 +3,7 @@ import http from 'http';
 import { createConnection } from 'typeorm';
 import { app } from './app';
 
-const port = parseInt(process.env.PORT || '3001');
+const port = parseInt(process.env.PORT || '4000');
 app.set('port', port);
 
 const onError = (error: any) => {
