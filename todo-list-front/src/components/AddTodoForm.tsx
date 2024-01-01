@@ -1,4 +1,4 @@
-import { Button, TextField } from "@mui/material";
+import { Button, ListItem, TextField } from "@mui/material";
 import { useState } from "react";
 import { gql, useMutation } from "@apollo/client";
 import { useDispatch } from "react-redux";
@@ -15,20 +15,27 @@ const ADD_TODO = gql`
 const AddTodoForm: React.FC = () => {
   const dispatch = useDispatch();
   const [newItemValue, setNewItemValue] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [addTodoToDB] = useMutation(ADD_TODO);
 
   return (
-    <>
-      <TextField
-        id="newItem"
-        variant="standard"
-        onChange={(event) => {
-          setNewItemValue(event.target.value);
-        }}
-        value={newItemValue}
-        placeholder="Add new item"
-      />
+    <ListItem sx={{ justifyContent: "space-between" }}>
+      <div>
+        <TextField
+          id="newItem"
+          variant="standard"
+          onChange={(event) => {
+            setErrorMessage("");
+            setNewItemValue(event.target.value);
+          }}
+          value={newItemValue}
+          placeholder="Add new item"
+          helperText={errorMessage}
+          color= {errorMessage ? "error" : "primary"}
+          focused
+        />
+      </div>
       <Button
         variant="contained"
         sx={{ bgcolor: "#3f51b5" }}
@@ -40,12 +47,14 @@ const AddTodoForm: React.FC = () => {
             dispatch(addTodo(newItemValue));
 
             setNewItemValue("");
+          } else {
+            setErrorMessage("can not add empty todo");
           }
         }}
       >
         ADD TODO
       </Button>
-    </>
+    </ListItem>
   );
 };
 

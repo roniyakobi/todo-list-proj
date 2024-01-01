@@ -1,7 +1,6 @@
-import List from "@mui/material/List";
 import TodoItem from "./TodoItem";
 import AddTodoForm from "./AddTodoForm";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Paper, Typography } from "@mui/material";
 import { Todo } from "../data";
 import { useDispatch, useSelector } from "react-redux";
 import { initialTodos, selectTodos } from "../todoSlice";
@@ -30,18 +29,15 @@ const TodoList: React.FC = () => {
   }, [data, dispatch]);
 
   return (
-    <Grid
-      sx={{ textAlign: "center" }}
-      style={{ width: "30%", justifyContent: "center", textAlign: "center" }}
-    >
-      <Typography>Todo List</Typography>
+    <Grid xs={6}>
+      <Typography variant="h3">Todo List</Typography>
 
-      <List sx={{ bgcolor: "background.paper", textAlign: "center" }}>
+      <Paper sx={{ bgcolor: "background.paper", textAlign: "center" }}>
         {todos.map((task: Todo) => (
           <TodoItem key={task.id} item={task} />
         ))}
         <AddTodoForm />
-      </List>
+      </Paper>
     </Grid>
   );
 };
